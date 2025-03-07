@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permintaan Maaf</title>
+    <style>
+        body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f8afb5;
+            transition: background 1s ease-in-out;
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+        }
+        h1 {
+            color: #f1071f;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 20px;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        .yes {
+            background-color: #28a745;
+            color: white;
+        }
+        .no {
+            background-color: #dc3545;
+            color: white;
+            position: absolute;
+        }
+        .next {
+            background-color: #007bff;
+            color: white;
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: none;
+        }
+        .prayer-btn {
+            background-color: #9c27b0;
+            color: white;
+            margin-top: 30px;
+        }
+        .hidden {
+            display: none;
+        }
+        .full-page-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('https://pngpix.com/images/high/panda-heart-love-you-illustration-xq0m9n4tzd9rq02u.webp');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: white;
+            display: none;
+            animation: fadeIn 2s ease-in-out;
+            z-index: 50;
+        }
+        .birthday-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            background-image: url('https://i.pinimg.com/736x/f3/d0/c3/f3d0c3f4be8f6a2b4c3b81a3e22d6d7b.jpg');
+            background-size: cover;
+            background-position: center;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 300;
+            animation: fadeIn 2s ease-in-out;
+            padding: 20px;
+        }
+        .message-content {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-width: 80%;
+        }
+        .birthday-message h1 {
+            font-size: 50px;
+            color: #ff4081;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+        .birthday-message p {
+            font-size: 24px;
+            color: #333;
+            max-width: 600px;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+        .birthday-message .heart {
+            color: #ff4081;
+            font-size: 30px;
+            animation: pulse 1.5s infinite;
+        }
+        .prayer-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 400;
+            animation: fadeIn 2s ease-in-out;
+            padding: 20px;
+        }
+        .prayer-form {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            max-width: 80%;
+            text-align: center;
+        }
+        .prayer-form h2 {
+            color: #9c27b0;
+            margin-bottom: 20px;
+        }
+        .prayer-form textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 16px;
+        }
+        .prayer-result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            display: none;
+        }
+        .prayer-wish {
+            font-weight: bold;
+            font-style: italic;
+            color: #9c27b0;
+        }
+        .wish-message {
+            font-size: 24px;
+            color: #ff4081;
+            margin-top: 15px;
+            animation: sparkle 1.5s infinite;
+        }
+        @keyframes sparkle {
+            0% { text-shadow: 0 0 5px #ff4081; }
+            50% { text-shadow: 0 0 15px #ff4081, 0 0 30px #ff4081; }
+            100% { text-shadow: 0 0 5px #ff4081; }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .animate {
+            animation: rotate 5s linear infinite;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            border-radius: 50%;
+            z-index: 400;
+        }
+        .balloon {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            border-radius: 50%;
+            animation: float 8s infinite;
+            z-index: 310;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-100px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        .sparkle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px #fff;
+            opacity: 0;
+            animation: twinkle 2s infinite;
+            z-index: 410;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Maafin yahhh plisss</h1>
+        <h2>Aliza Dewi Maharani</h2>
+        <p>Can we start over again?</p>
+        <button class="btn yes">Okeyyy</button>
+        <button class="btn no">Gamaauuu</button>
+    </div>
+    <div class="full-page-image"></div>
+    <button class="btn next">Selanjutnya</button>
+    <div class="birthday-message">
+        <div class="message-content">
+            <h1>Selamat Ulang Tahun!</h1>
+            <p>Untuk Aliza Dewi Maharani,</p>
+            <p>doa sendirii yaa dibawah inii, jangan manja</p>
+            <p>hope you like it</p>
+            <button class="btn prayer-btn">disinii doanya</button>
+        </div>
+    </div>
+    <div class="prayer-container">
+        <div class="prayer-form">
+            <h2>Tuliskan Doa atau Harapanmu yeee</h2>
+            <textarea id="prayer-input" placeholder="Tulis doa atau harapanmu di sini..."></textarea>
+            <button class="btn" id="submit-prayer">Kirim</button>
+            <div class="prayer-result">
+                <p>Doa/harapanmu:</p>
+                <p class="prayer-wish" id="prayer-text"></p>
+                <p class="wish-message">✨ Semoga segera terkabulkan! ✨</p>
+            </div>
+        </div>
+    </div>
+    <audio id="bg-music" loop>
+        <source src="ssstik.io_1741279326071.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="birthday-music" loop>
+        <source src="Happy_birthday_to_you_MIDI(chosic.com).mp3" type="audio/mpeg">
+    </audio>
+    <script>
+        const noButton = document.querySelector('.no');
+        const yesButton = document.querySelector('.yes');
+        const nextButton = document.querySelector('.next');
+        const fullPageImage = document.querySelector('.full-page-image');
+        const birthdayMessage = document.querySelector('.birthday-message');
+        const prayerBtn = document.querySelector('.prayer-btn');
+        const prayerContainer = document.querySelector('.prayer-container');
+        const submitPrayer = document.getElementById('submit-prayer');
+        const prayerInput = document.getElementById('prayer-input');
+        const prayerResult = document.querySelector('.prayer-result');
+        const prayerText = document.getElementById('prayer-text');
+        const bgMusic = document.getElementById('bg-music');
+        const birthdayMusic = document.getElementById('birthday-music');
+        
+        noButton.addEventListener('mouseover', function() {
+            const x = Math.random() * (window.innerWidth - noButton.clientWidth);
+            const y = Math.random() * (window.innerHeight - noButton.clientHeight);
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
+        });
+
+        yesButton.addEventListener('click', function() {
+            document.body.style.background = 'white';
+            fullPageImage.style.display = 'block';
+            fullPageImage.classList.add('animate');
+            nextButton.style.display = 'block';
+            bgMusic.play();
+        });
+        
+        nextButton.addEventListener('click', function() {
+            birthdayMessage.style.display = 'flex';
+            bgMusic.pause();
+            birthdayMusic.play();
+            createConfetti();
+            createBalloons();
+        });
+        
+        prayerBtn.addEventListener('click', function() {
+            prayerContainer.style.display = 'flex';
+            createSparkles();
+        });
+        
+        submitPrayer.addEventListener('click', function() {
+            const prayer = prayerInput.value.trim();
+            if (prayer !== '') {
+                prayerText.textContent = prayer;
+                prayerResult.style.display = 'block';
+                prayerInput.value = '';
+                createSparkles();
+            }
+        });
+        
+        function createConfetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.top = -10 + 'px';
+                    confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+                    document.body.appendChild(confetti);
+                    
+                    let posY = -10;
+                    let speed = 2 + Math.random() * 3;
+                    let posX = parseFloat(confetti.style.left);
+                    let horizontalMovement = (Math.random() - 0.5) * 3;
+                    
+                    let confettiInterval = setInterval(() => {
+                        posY += speed;
+                        posX += horizontalMovement;
+                        confetti.style.top = posY + 'px';
+                        confetti.style.left = posX + 'vw';
+                        
+                        if (posY > window.innerHeight) {
+                            clearInterval(confettiInterval);
+                            confetti.remove();
+                        }
+                    }, 20);
+                }, i * 50);
+            }
+        }
+        
+        function createBalloons() {
+            const colors = ['#ff4081', '#7c4dff', '#00e676', '#ffea00', '#ff9100'];
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const balloon = document.createElement('div');
+                    balloon.classList.add('balloon');
+                    balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    balloon.style.left = Math.random() * 100 + 'vw';
+                    balloon.style.top = (Math.random() * 50 + 50) + 'vh';
+                    balloon.style.animationDelay = (Math.random() * 2) + 's';
+                    document.body.appendChild(balloon);
+                }, i * 200);
+            }
+        }
+    </script>
+</body>
+</html>
